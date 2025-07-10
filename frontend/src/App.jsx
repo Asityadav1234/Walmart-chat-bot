@@ -34,6 +34,7 @@ function App() {
     setLoading(true);
 
     try {
+      console.log("VITE_API_URL:", import.meta.env.VITE_API_URL);
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/chat`, {
         message: input,
         session_id: sessionId,
