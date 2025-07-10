@@ -3,6 +3,14 @@ from walmart_search import search_walmart_products
 from chat_memory import ChatMemory
 from reply_generator import generate_reply
 from recommender import recommend_best_product
+from fastapi import FastAPI
+
+app = FastAPI()
+
+# Example route
+@app.get("/")
+def read_root():
+    return {"message": "Hello from FastAPI!"}
 
 # Session store for maintaining conversation state
 sessions = {}
