@@ -4,8 +4,30 @@ from chat_memory import ChatMemory
 from reply_generator import generate_reply
 from recommender import recommend_best_product
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Request
+from pydantic import BaseModel
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
+
+# Allow CORS for frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change to your frontend URL for production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class ChatRequest(BaseModel):
+    message: str
+    session_id: str
+
+@app.post("/chat")
+def chat_endpoint(request: ChatRequest):
+    result = get_response(request.message, request.session_id)
+    return JSONResponse(content=result)
 
 # Example route
 @app.get("/")
